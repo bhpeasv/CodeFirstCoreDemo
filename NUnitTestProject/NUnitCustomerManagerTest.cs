@@ -12,7 +12,6 @@ namespace NUnitTestProject
     [TestFixture]
     public class NUnitCustomerManagerTest
     {
-
         private Dictionary<int, Customer> customers = new Dictionary<int, Customer>();
         private Mock<IRepository<int, Customer>> customerRepoMock = new Mock<IRepository<int, Customer>>();
 
@@ -27,6 +26,11 @@ namespace NUnitTestProject
             customerRepoMock.Setup(x => x.GetById(It.IsAny<int>())).Returns<int>(id => customers.ContainsKey(id) ? customers[id] : null);
         }
 
+        [SetUp]
+        public void InitializeTest()
+        {
+            customers = new Dictionary<int, Customer>();
+        }
 
         [Test]
         public void CreateCustomerManagerValid()
@@ -112,7 +116,7 @@ namespace NUnitTestProject
             c2 = cm.Add(c2);
 
             var result = cm.GetAll();
-
+            
             Assert.True(result.Count == 2);
             Assert.True(result.Contains(c1));
             Assert.True(result.Contains(c2));
@@ -149,7 +153,7 @@ namespace NUnitTestProject
 
             Customer result = cm.GetById(c2.Id);
 
-            Assert.IsNull(result);
+            Assert.Null(result);
         }
 
 
@@ -160,4 +164,3 @@ namespace NUnitTestProject
         }
     }
 }
-
